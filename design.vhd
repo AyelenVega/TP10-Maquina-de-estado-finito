@@ -14,8 +14,7 @@ end receptor_ir;
 
 architecture arch of receptor_ir is
     --Control
-    signal det_tiempo_sal: std_logic_vector(5 downto 0);
-    signal dato: std_logic;
+
 
     --Registro de desplazamiento 
     signal ent_sipo, hab_sipo: std_logic;
@@ -33,9 +32,7 @@ begin
     --Control
     control: process (all)
     begin
-        if 2 <= std_logic_vector(unsigned (det_tiempo_sal)) <= 4 then dato<='0';
-        elsif 8 <= std_logic_vector(unsigned (det_tiempo_sal)) <= 10 then dato<='1';
-        end if ;        
+           
 
     end process;
 
