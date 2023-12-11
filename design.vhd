@@ -1,5 +1,7 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
+use work.contador_pkg.all;
+use work.det_tiempo_pkg.all;
 
 entity receptor_ir is
     port (
@@ -15,6 +17,12 @@ end receptor_ir;
 architecture arch of receptor_ir is
     --Control
 
+    --Detector de tiempo
+    signal MED: std_logic;
+    signal ciclos: std_logic_vector(31 downto 0);
+
+    --Contador
+    signal cant_bit: std_logic_vector(31 downto 0);
 
     --Registro de desplazamiento 
     signal ent_sipo, hab_sipo: std_logic;
@@ -33,9 +41,29 @@ begin
     control: process (all)
     begin
            
-
     end process;
 
+    --Detector de tiempo
+    det: det_tiempo generic map(N => 32) port map(
+        rst => rst,
+        pulso => not infrarrojo,
+        hab => hab,
+        clk => clk,
+        med => MED,
+        tiempo => ciclos
+    );
+
+
+    --Contador
+    cont: contador generic map (N => 32) port map(
+        rst => rst,
+        D => sipo_actual,
+        carga => '0',
+        hab => hab,
+        clk => clk,
+        Q => cant_bit
+    );
+    
 
     --Registro de desplazamiento
     memoria_sipo: process(all)
