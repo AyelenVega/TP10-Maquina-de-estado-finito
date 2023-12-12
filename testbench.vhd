@@ -108,7 +108,7 @@ begin
         in_infrarrojo <= CON_LUZ;
         wait for TIEMPO_LUZ_STOP;
         in_infrarrojo <= SIN_LUZ;
-        wait for 1 ms;
+        wait for 5 ms;
         in_infrarrojo <= CON_LUZ;
         wait for TIEMPO_LUZ_REP;
         in_infrarrojo <= SIN_LUZ;
