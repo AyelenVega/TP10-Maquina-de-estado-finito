@@ -59,6 +59,9 @@ begin
         constant TIEMPO_OSC_CERO  : time := 1 * TIEMPO_LUZ_BIT;
         constant TIEMPO_OSC_UNO   : time := 3 * TIEMPO_LUZ_BIT;
         constant TIEMPO_LUZ_STOP  : time := TIEMPO_LUZ_BIT;
+        constant TIEMPO_LUZ_REP   : time := TIEMPO_LUZ_START;
+        constant TIEMPO_OSC_REP   : time := 2.25 ms;
+        constant TIEMPO_REP_FINAL : time :=TIEMPO_LUZ_BIT;
         constant DIR : std_logic_vector (7 downto 0) := x"00";
         constant CMD : std_logic_vector (7 downto 0) := x"AD";
     begin
@@ -105,6 +108,14 @@ begin
         in_infrarrojo <= CON_LUZ;
         wait for TIEMPO_LUZ_STOP;
         in_infrarrojo <= SIN_LUZ;
+        wait for 1 ms;
+        in_infrarrojo <= CON_LUZ;
+        wait for TIEMPO_LUZ_REP;
+        in_infrarrojo <= SIN_LUZ;
+        wait for TIEMPO_OSC_REP;
+        in_infrarrojo <= CON_LUZ;
+        wait for TIEMPO_REP_FINAL;
+        in_infrarrojo <=SIN_LUZ;
         wait for 1 ms;
         finish;
     end process;
