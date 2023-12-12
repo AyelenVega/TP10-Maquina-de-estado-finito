@@ -35,7 +35,7 @@ end det_tiempo;
 architecture solucion of det_tiempo is
 constant uno : std_logic_vector(N-1 downto 0) := (0 => '1', others => '0');
 signal Q2, salida : std_logic_vector(N-1 downto 0);
-signal fl_asc, fl_dsc, hab_cont, flanco, med_act, Q1 : std_logic;
+signal fl_asc, fl_dsc, hab_cont, flanco, med_act, Q1, med_sig : std_logic;
 begin
     memoria : process(all)
     begin
@@ -71,15 +71,18 @@ begin
     end process;
 
     flanco <= fl_asc or fl_dsc;
-    med_act <= fl_asc when flanco else med;
+    med_act <= fl_asc;
+    
 
     medicion : process(all)
     begin
         if rst = '1' then
-            med <= '0';
+            med<= '0';
         elsif rising_edge(clk) then
             med <= med_act;
         end if;
     end process;
-            
+     
+   
+ 
 end solucion;
