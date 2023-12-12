@@ -18,7 +18,7 @@ end receptor_ir;
 architecture arch of receptor_ir is
     --Controlador
     signal uno,cero,inicio, repeticion, desplazar: std_logic;
-    signal mensaje_correcto, desplazar_2, co_act: std_logic;
+    signal mensaje_correcto, desplazar_2: std_logic;
 
     --Detector de tiempo
     signal MED: std_logic;
@@ -27,7 +27,7 @@ architecture arch of receptor_ir is
     --Contador
     signal cant_bit: std_logic_vector(4 downto 0);
     signal hab_contador, mensaje_completo, Co: std_logic;
-    constant D : std_logic_vector(4 downto 0) := (others => '0');
+    constant D : std_logic_vector(4 downto 0) := (others => '1');
 
 
     --Registro de desplazamiento 
@@ -80,23 +80,15 @@ begin
         Co => Co
     );
     
-    ff_co: process(all)
-    begin
-        if rst='1' then
-            co_act<='0';
-        elsif rising_edge(clk) then
-            co_act<=Co; 
-        end if ;
 
-    end process;
-    mensaje_completo<=co_act;
+    mensaje_completo<=Co and not inicio;
     
 
     --Registro de desplazamiento
     ent_sipo<= '0' when cero='1' else '1';
     hab_sipo<=desplazar_2;
 
-    memoria_sipo: process(all)
+    memoria_sipo: process(rst,clk)
     begin
         if rst = '1' then 
             sipo_actual <= (others => '0');
@@ -157,6 +149,6 @@ begin
     --Salida
     dir<=dir_salida;
     cmd<=cmd_salida;
-    valido<=valido_salida;
+    valido<=valido_salida and not repeticion;
 
 end architecture;
